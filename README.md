@@ -313,6 +313,129 @@ src/
 
 ---
 
+## FAQ
+
+### Why are both approaches immutable? Where are the setters?
+
+**Domain models are read-only representations of backend data.**
+
+These models exist to:
+
+- Transform raw API responses into typed, structured objects
+- Provide computed properties and formatted values
+- Attach reusable behaviors (timestamps, author info, etc.)
+
+They are **not** meant to be edited directly. This is intentional.
+
+### How do I edit a model then?
+
+When a user needs to edit data, use a **separate form schema/model**:
+
+```typescript
+// Domain model - read-only, from API
+const task = createTask(apiResponse);
+
+// Form schema - editable, for user input
+const taskForm = {
+  title: task.title,
+  body: task.body,
+  priority: task.priority,
+};
+
+// Validate with your preferred library (Zod, Yup, etc.)
+const validatedData = taskSchema.parse(taskForm);
+
+// Submit to API
+await api.updateTask(task.id, validatedData);
+
+// Refresh domain model with new API response
+const updatedTask = createTask(await api.getTask(task.id));
+```
+
+This separation provides:
+
+- **Validation at the right layer** - Forms handle user input validation
+- **Clear data flow** - API → Domain Model → Display, Form → Validation → API
+- **No accidental mutations** - Domain models always reflect server state
+- **Optimistic updates** - Handle separately with loading states
+
+### Why not just make the models editable?
+
+Mixing read and write concerns leads to:
+
+1. **Stale state bugs** - Local edits diverge from server state
+2. **Validation complexity** - Where do you validate? In the setter? On save?
+3. **Sync issues** - Which version is "truth"? Local or server?
+4. **Testing difficulty** - Mutable state is harder to test
+
+By keeping domain models immutable:
+
+- They always represent the last-known server state
+- Components can trust the data they receive
+- React change detection works correctly
+- Debugging is simpler (data doesn't change unexpectedly)
+
+### What about optimistic updates?
+
+Handle optimistic UI separately from domain models:
+
+```typescript
+const [optimisticTask, setOptimisticTask] = useState(task);
+
+async function handleToggleWatch() {
+  // Optimistic update
+  setOptimisticTask({ ...task, isWatched: !task.isWatched });
+
+  try {
+    await api.toggleWatch(task.id);
+    // Refetch or update from response
+  } catch {
+    // Revert on error
+    setOptimisticTask(task);
+  }
+}
+```
+
+Or use libraries like React Query / SWR that handle this pattern.
+
+### Can I add methods to domain models?
+
+Yes, but prefer standalone functions for business logic:
+
+```typescript
+// ❌ Avoid - method on model
+task.canEdit(currentUser);
+
+// ✅ Prefer - standalone function
+canEditTask(task, currentUser);
+```
+
+Standalone functions are:
+
+- Easier to test (pure functions)
+- More tree-shakeable
+- Reusable across different model types
+- Clearer about dependencies
+
+### How do I handle nested/related models?
+
+Use the relations helpers (functional approach):
+
+```typescript
+const withComments = withHasMany({
+  key: "comments",
+  from: (s) => s.comments,
+  transform: createComment,
+});
+
+const post = createPostDetail(apiData);
+post.comments; // Comment[] - each comment is also a domain model
+```
+
+Each nested model is transformed through its own factory, maintaining type safety throughout.
+
+---
+
 ## License
 
 MIT
