@@ -1,0 +1,310 @@
+/* App Layout */
+.app {
+    min-height: 100vh;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-header h1 {
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.app-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Sections */
+.section {
+    width: 100%;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-icon {
+    font-size: 1.25rem;
+}
+
+/* Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.card-grid--posts {
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+}
+
+/* Task Card */
+.task-card {
+    background: linear-gradient(145deg, #1e1e2e 0%, #181825 100%);
+    border: 1px solid #313244;
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.task-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-card__status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.task-card__status-badge[data-status="todo"] {
+    background: rgba(148, 163, 184, 0.15);
+    color: #94a3b8;
+}
+
+.task-card__status-badge[data-status="in_progress"] {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+}
+
+.task-card__status-badge[data-status="done"] {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+}
+
+.task-card__title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #cdd6f4;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.task-card__body {
+    font-size: 0.875rem;
+    color: #a6adc8;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.task-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #313244;
+}
+
+.task-card__priority {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.task-card__tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    border-radius: 4px;
+}
+
+/* Post Card */
+.post-card {
+    background: linear-gradient(145deg, #1e1e2e 0%, #181825 100%);
+    border: 1px solid #313244;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.post-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.post-card__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.post-card__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-card__avatar--placeholder {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+}
+
+.post-card__author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card__author-name {
+    font-weight: 600;
+    color: #cdd6f4;
+    font-size: 0.9rem;
+}
+
+.post-card__date {
+    font-size: 0.8rem;
+    color: #6c7086;
+}
+
+.post-card__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #cdd6f4;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.post-card__excerpt {
+    font-size: 0.9rem;
+    color: #a6adc8;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.post-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #313244;
+}
+
+.post-card__action {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #6c7086;
+    background: transparent;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.post-card__action:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #cdd6f4;
+}
+
+.post-card__action.liked {
+    color: #f43f5e;
+}
+
+.post-card__draft-badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    background: rgba(250, 204, 21, 0.15);
+    color: #facc15;
+    border-radius: 999px;
+}
+
+/* Watch Button */
+.watch-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: #6c7086;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.watch-btn:hover {
+    transform: scale(1.1);
+}
+
+.watch-btn.watching {
+    color: #facc15;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app {
+        padding: 1rem;
+    }
+
+    .app-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .card-grid,
+    .card-grid--posts {
+        grid-template-columns: 1fr;
+    }
+}
