@@ -160,3 +160,7 @@ export function withAuthor<S extends AuthoredSource>(
         };
     };
 }
+
+export function isAuthored(obj: unknown): obj is Authored {
+    return typeof obj === "object" && obj !== null && "author" in obj;
+}

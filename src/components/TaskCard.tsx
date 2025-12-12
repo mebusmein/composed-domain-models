@@ -1,9 +1,13 @@
-import type { WatchableTask } from "../models/function/task";
-import { useWatchableToggle } from "../models/function/behaviors/watchable";
+import type { FullTask, Task, WatchableTask } from "../models/function/task";
+import { isWatchable } from "../models/function/behaviors/watchable";
 import { Author } from "./Author";
+import { isAuthored } from "../models/function/behaviors/author";
+import { isTimestamped } from "../models/function/behaviors/timestamps";
+import { Timestamps } from "./Timestamps";
+import { WatchToggle } from "./WatchToggle";
 
 type TaskCardProps = {
-  task: WatchableTask;
+  task: FullTask | WatchableTask | Task;
 };
 
 const priorityColors = {
@@ -19,26 +23,21 @@ const statusLabels = {
 };
 
 export function TaskCard({ task }: TaskCardProps) {
-  const { isWatched, setIsWatched } = useWatchableToggle(task);
+  const isWatchableTask = isWatchable(task);
+  const isAuthoredTask = isAuthored(task);
+  const isTimestampedTask = isTimestamped(task);
 
   return (
     <article className="task-card">
       <header className="task-card__header">
-        <Author
-          author={task.author}
-          createdAt={task.createdAt}
-          updatedAt={task.updatedAt}
-        />
+        {isAuthoredTask && <Author author={task.author} />}
+        {isTimestampedTask && (
+          <Timestamps createdAt={task.createdAt} updatedAt={task.updatedAt} />
+        )}
         <div className="task-card__status-badge" data-status={task.status}>
           {statusLabels[task.status]}
         </div>
-        <button
-          className={`watch-btn ${isWatched ? "watching" : ""}`}
-          onClick={() => setIsWatched(!isWatched)}
-          title={isWatched ? "Unwatch" : "Watch"}
-        >
-          {isWatched ? "★" : "☆"}
-        </button>
+        {isWatchableTask && <WatchToggle watchable={task} />}
       </header>
 
       <h3 className="task-card__title">{task.title}</h3>

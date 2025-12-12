@@ -1,29 +1,19 @@
 import type { PostListItem } from "../models/function/post";
-import { useWatchableToggle } from "../models/function/behaviors/watchable";
 import { Author } from "./Author";
+import { Timestamps } from "./Timestamps";
+import { WatchToggle } from "./WatchToggle";
 
 type PostCardProps = {
   post: PostListItem;
 };
 
 export function PostCard({ post }: PostCardProps) {
-  const { isWatched, setIsWatched } = useWatchableToggle(post);
-
   return (
     <article className="post-card">
       <header className="post-card__header">
-        <Author
-          author={post.author}
-          createdAt={post.createdAt}
-          updatedAt={post.updatedAt}
-        />
-        <button
-          className={`watch-btn ${isWatched ? "watching" : ""}`}
-          onClick={() => setIsWatched(!isWatched)}
-          title={isWatched ? "Unwatch" : "Watch"}
-        >
-          {isWatched ? "★" : "☆"}
-        </button>
+        <Author author={post.author} />
+        <Timestamps createdAt={post.createdAt} updatedAt={post.updatedAt} />
+        <WatchToggle watchable={post} />
       </header>
 
       <h3 className="post-card__title">{post.title}</h3>

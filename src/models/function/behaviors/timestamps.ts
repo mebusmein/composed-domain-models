@@ -140,3 +140,6 @@ export function withSoftDelete<
     };
 }
 
+export function isTimestamped(obj: unknown): obj is Timestamped {
+    return typeof obj === "object" && obj !== null && "createdAt" in obj && "updatedAt" in obj;
+}
