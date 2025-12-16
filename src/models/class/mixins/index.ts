@@ -20,3 +20,4 @@ export type {
 export { WithAuthor, isAuthored } from "./author";
 export type { AuthorInfo, IAuthored, AuthoredSource, AuthorOptions } from "./author";
 
+

@@ -140,3 +140,4 @@ export function isAuthored(obj: unknown): obj is IAuthored {
     return typeof obj === "object" && obj !== null && "author" in obj;
 }
 
+
